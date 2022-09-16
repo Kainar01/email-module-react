@@ -28,35 +28,40 @@ export default ({ mode }) => {
       cssCodeSplit: false,
       rollupOptions: {
         external: [
-          'react',
-          'react-dom',
-          'styled-components',
-          'normalize.css',
-          'grapesjs-preset-webpage',
-          'grapesjs-blocks-basic',
-          'grapesjs',
-          'react-error-boundary',
-          'grapesjs-react',
+          // 'react',
+          // 'react-dom',
+          // 'styled-components',
+          // 'normalize.css',
+          // 'grapesjs-preset-webpage',
+          // 'grapesjs-blocks-basic',
+          // 'grapesjs',
+          // 'react-error-boundary',
+          // 'grapesjs-react',
         ],
         output: {
           manualChunks: undefined,
           globals: {
-            react: 'react',
-            'react-dom': 'react-dom',
-            'styled-components': 'styled',
-            grapesjs: 'grapesjs',
-            'react-error-boundary': 'react-error-boundary',
-            'grapesjs-blocks-basic': 'grapesjs-blocks-basic',
-            'grapesjs-preset-webpage': 'grapesjs-preset-webpage',
-            'grapesjs-react': 'grapesjs-react',
+            // react: 'React',
+            // 'react-dom': 'react-dom',
+            // 'styled-components': 'styled',
+            // grapesjs: 'grapesjs',
+            // 'react-error-boundary': 'react-error-boundary',
+            // 'grapesjs-blocks-basic': 'grapesjs-blocks-basic',
+            // 'grapesjs-preset-webpage': 'grapesjs-preset-webpage',
+            // 'grapesjs-react': 'grapesjs-react',
           },
         },
       },
       lib: {
         entry: path.resolve(__dirname, 'src/index.tsx'),
         name: 'ReactEmailModule',
-        fileName: 'react-email-module',
+        formats: ['es', 'umd'],
+        fileName: (format) => `react-email-module.${format}.js`,
       },
     },
   });
 };
+function nodeExternals(): import("vite").PluginOption {
+  throw new Error('Function not implemented.');
+}
+
