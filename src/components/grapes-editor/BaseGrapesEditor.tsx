@@ -20,8 +20,11 @@ export function GrapesEditor({ grapesConfig, templateConfig }: GrapesEditorProps
   const handleOnInit = (editor?: GrapesJS.Editor) => {
     if (editor) {
       grapesEditor.current = editor;
+      editor.on('storage:start:load', ()=>{
+        const html = editor.runCommand('gjs-get-inlined-html', {})
+        console.log('html=', html)
+      })
     }
-    // editor.runCommand('gjs-get-inlined-html')
   };
 
   const onHandleSave = () => {
@@ -32,7 +35,7 @@ export function GrapesEditor({ grapesConfig, templateConfig }: GrapesEditorProps
   };
   return (
     <Stack>
-      <GrapesjsReact onInit={} id={uid} {...grapesConfig} />
+      <GrapesjsReact onInit={handleOnInit} id={uid} {...grapesConfig} />
     </Stack>
   );
 }

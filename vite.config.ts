@@ -20,6 +20,9 @@ export default ({ mode }) => {
         insertTypesEntry: true,
       }),
     ],
+    define: {
+      'process.env': {}
+    },
     base: process.env.VITE_PUBLIC_URL,
     build: {
       cssCodeSplit: false,
