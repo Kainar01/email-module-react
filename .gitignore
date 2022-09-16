@@ -10,6 +10,7 @@ lerna-debug.log*
 node_modules
 dist/*
 !dist/react-email-module.umd.cjs
+!dist/react-email-module.umd.js
 !dist/react-email-module.js
 dist-ssr
 *.local
