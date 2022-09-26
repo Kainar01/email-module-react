@@ -3,4 +3,6 @@
  */
 // export { GrapesNewsletterBuilder as GrapesEditor } from './GrapesNewsletterBuilder';
 
-export { GrapesWebBuilder as GrapesEditor } from './GrapesWebBuilder';
+export { BaseGrapesEditor as BaseGrapesEditor } from './BaseGrapesEditor';
+export { GrapesWebBuilder as WebGrapesEditor } from './GrapesWebBuilder';
+export { GrapesNewsletterBuilder as GrapesEditor } from './GrapesNewsletterBuilder';
