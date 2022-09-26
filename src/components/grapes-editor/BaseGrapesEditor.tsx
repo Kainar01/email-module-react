@@ -85,6 +85,10 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
       ];
 
       addButtons(editor, buttons);
+
+      editor.on('storage:start:store', () => {
+        onAutoSave?.(editor.getProjectData());
+      });
     }
   };
 
@@ -138,20 +142,14 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const editor = grapesEditor.current;
-      if (editor) {
-        onAutoSave?.(editor.getProjectData());
-      }
-    }, SECOND_MS * Math.max(MINIMAL_AUTOSAVE_SECOND, autosave));
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <ContainerStyled>
-      <GrapesjsReact {...grapesConfig} onInit={handleOnInit} id={uid} storageManager={false} />
+      <GrapesjsReact
+        {...grapesConfig}
+        onInit={handleOnInit}
+        id={uid}
+        storageManager={{ autoload: false, autosave: true }}
+      />
       <LoadingOverlay active={loading} />
     </ContainerStyled>
   );
