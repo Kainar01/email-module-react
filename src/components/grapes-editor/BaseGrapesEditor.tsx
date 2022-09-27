@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import GrapesJS from 'grapesjs';
 
@@ -9,7 +9,9 @@ import { GrapesjsReact } from 'grapesjs-react';
 
 import 'grapesjs/dist/css/grapes.min.css';
 import styled from 'styled-components';
-import { addButtons } from './utils';
+import { addButtons, addCommands } from './utils';
+import { EventType, getEventType, off, on } from '~/events';
+import { CommandType } from './types';
 
 export type GrapesEditorProps = {
   grapesConfig: GrapesJS.EditorConfig;
@@ -18,8 +20,7 @@ export type GrapesEditorProps = {
 
 export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorProps) {
   const [loading, setLoading] = useState(false);
-  const { uid, onSave, onSend, onAutoSave, templateJSON, templateHTML, saveOnSend } =
-    templateConfig;
+  const { uid, onSave, onSend, onAutoSave, templateJSON, templateHTML } = templateConfig;
 
   const grapesEditor = useRef<GrapesJS.Editor | null>(null);
 
@@ -32,6 +33,17 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
       } else {
         editor.setComponents(templateHTML, {});
       }
+
+      const commands = [
+        {
+          id: CommandType.SAVE_TEMPLATE,
+          command: handleActionWithEditor(editor, handleSave),
+        },
+        {
+          id: CommandType.SEND_TEMPLATE,
+          command: handleActionWithEditor(editor, handleSend),
+        },
+      ];
 
       const buttons = [
         {
@@ -60,7 +72,7 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
           id: 'save',
           label: ' Save',
           className: 'fa fa-floppy-o icon-blank',
-          command: handleActionWithEditor(handleSave),
+          command: handleActionWithEditor(editor, handleSave),
           attributes: { title: 'Save Template' },
         },
         {
@@ -68,12 +80,13 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
           id: 'send',
           label: ' Send',
           className: 'fa fa-send-o',
-          command: handleActionWithEditor(handleSend),
+          command: handleActionWithEditor(editor, handleSend),
           attributes: { title: 'Save Template' },
         },
       ];
 
       addButtons(editor, buttons);
+      addCommands(editor, commands);
 
       editor.on('storage:start:store', () => {
         onAutoSave?.(editor.getProjectData());
@@ -87,11 +100,11 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
     return juice(html, { extraCss: css as string });
   };
 
-  const handleActionWithEditor = (action: (editor: GrapesJS.Editor) => Promise<void> | void) => {
-    const editor = grapesEditor.current;
-    if (!editor) return;
-
-    return async () => {
+  const handleActionWithEditor = (
+    editor: GrapesJS.Editor,
+    action: (editor: GrapesJS.Editor) => Promise<void> | void,
+  ) => {
+    return async (): Promise<void> => {
       try {
         setLoading(true);
         await action(editor);
@@ -128,11 +141,22 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
     }
 
     await onSend(htmlInlineCss);
-
-    if (saveOnSend) {
-      await handleSave(editor);
-    }
   };
+
+  useEffect(() => {
+    function saveTemplate() {
+      const editor = grapesEditor.current;
+      editor?.runCommand(CommandType.SAVE_TEMPLATE, {});
+    }
+
+    const eventType = getEventType(EventType.SAVE_TEMPLATE, uid);
+
+    on(eventType, saveTemplate);
+
+    return () => {
+      off(eventType, saveTemplate);
+    };
+  }, [grapesEditor.current]);
 
   return (
     <ContainerStyled>

@@ -7,7 +7,6 @@ export interface TemplateConfig {
   uid: string;
   containerId: string;
   autosave?: number;
-  saveOnSend?: boolean;
   templateJSON?: object;
   templateHTML?: string;
   preventClose?: boolean;

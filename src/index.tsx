@@ -2,9 +2,12 @@ import * as ReactDOM from 'react-dom/client';
 import React from 'react';
 import App from './App';
 import { TemplateConfig } from './interface';
+import { EventType, getEventType, trigger } from './events';
 
 export default class ReactEmailModule {
-  public static renderTemplate = ({ containerId, ...templateConfig }: TemplateConfig) => {
+  public static renderTemplate = (config: TemplateConfig) => {
+    const { containerId, ...templateConfig } = config;
+
     const container = document.getElementById(containerId);
 
     if (!container)
@@ -17,5 +20,24 @@ export default class ReactEmailModule {
         <App templateConfig={templateConfig} />
       </React.StrictMode>,
     );
+
+    return new GrapesPluginInstance(config);
   };
+}
+
+class GrapesPluginInstance {
+  private uid: string;
+  constructor({ uid }: TemplateConfig) {
+    this.uid = uid;
+  }
+
+  public saveTemplate() {
+    const eventType = getEventType(EventType.SAVE_TEMPLATE, this.uid);
+    trigger(eventType);
+  }
+
+  public sendTemplate() {
+    const eventType = getEventType(EventType.SEND_TEMPLATE, this.uid);
+    trigger(eventType);
+  }
 }

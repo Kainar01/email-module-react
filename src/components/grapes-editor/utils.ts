@@ -1,4 +1,5 @@
 import GrapesJS from 'grapesjs';
+import { CommandType } from './types';
 
 export interface GrapesButton {
   panelId: string;
@@ -19,6 +20,19 @@ export interface GrapesButton {
   disable?: boolean;
 }
 
+export interface GrapesCommand {
+  id: CommandType;
+  command: () => Promise<void> | void;
+}
+
 export const addButtons = (editor: GrapesJS.Editor, buttons: GrapesButton[]) => {
-  buttons.forEach(({panelId, ...btnOpts})=>editor.Panels.addButton('options', btnOpts as GrapesJS.ButtonOptions));
+  buttons.forEach(({ panelId, ...btnOpts }) =>
+    editor.Panels.addButton('options', btnOpts as GrapesJS.ButtonOptions),
+  );
+};
+
+export const addCommands = (editor: GrapesJS.Editor, commands: GrapesCommand[]) => {
+  commands.forEach((cmd) =>
+    editor.Commands.add(cmd.id, cmd.command),
+  );
 };
