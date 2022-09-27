@@ -229,15 +229,16 @@ ReactEmailModule.renderTemplate({
   containerId: 'root',
   uid: 'helo',
   templateJSON: demo,
+  saveOnSend: true,
   templateHTML: '<b>helo</b>',
   onSave: async (json, html) => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
     console.log(json);
   },
   onAutoSave:  (json) => {
   },
   onSend: async (html) => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
     console.log(html);
   },
 });

@@ -13,9 +13,7 @@ function App({ templateConfig }: Props) {
     <AppProvider>
       <GrapesEditor
         templateConfig={templateConfig}
-        grapesConfig={{
-          plugins: ['gjs-preset-newsletter', 'gjs-blocks-basic'],
-        }}
+        grapesConfig={{}}
       />
     </AppProvider>
   );

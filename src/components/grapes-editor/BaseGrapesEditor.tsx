@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import GrapesJS from 'grapesjs';
 
@@ -16,21 +16,10 @@ export type GrapesEditorProps = {
   templateConfig: Omit<TemplateConfig, 'containerId'>;
 };
 
-const SECOND_MS = 1000;
-const MINIMAL_AUTOSAVE_SECOND = 1;
-const DEFAULT_AUTOSAVE_SECOND = 3;
-
 export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorProps) {
   const [loading, setLoading] = useState(false);
-  const {
-    uid,
-    onSave,
-    onSend,
-    onAutoSave,
-    templateJSON,
-    templateHTML,
-    autosave = DEFAULT_AUTOSAVE_SECOND,
-  } = templateConfig;
+  const { uid, onSave, onSend, onAutoSave, templateJSON, templateHTML, saveOnSend } =
+    templateConfig;
 
   const grapesEditor = useRef<GrapesJS.Editor | null>(null);
 
@@ -71,7 +60,7 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
           id: 'save',
           label: ' Save',
           className: 'fa fa-floppy-o icon-blank',
-          command: onHandleSave,
+          command: handleActionWithEditor(handleSave),
           attributes: { title: 'Save Template' },
         },
         {
@@ -79,7 +68,7 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
           id: 'send',
           label: ' Send',
           className: 'fa fa-send-o',
-          command: onHandleSend,
+          command: handleActionWithEditor(handleSend),
           attributes: { title: 'Save Template' },
         },
       ];
@@ -98,47 +87,50 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
     return juice(html, { extraCss: css as string });
   };
 
-  const onHandleSave = async () => {
+  const handleActionWithEditor = (action: (editor: GrapesJS.Editor) => Promise<void> | void) => {
     const editor = grapesEditor.current;
+    if (!editor) return;
 
-    if (editor) {
-      const htmlInlineCss = getInlineCssHtml(editor);
-      const grapesJson = editor.getProjectData();
-
-      if (!onSave) {
-        console.warn(
-          '[React Email Module] You do not have listener for on save hook. Pass one to be able to get template data on save',
-        );
-      } else {
-        handleActionWithLoader(() => onSave(grapesJson, htmlInlineCss));
+    return async () => {
+      try {
+        setLoading(true);
+        await action(editor);
+      } catch (e) {
+        console.error('[React Email Module] Error occured while executing an action: ', e);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
   };
 
-  const onHandleSend = async () => {
-    const editor = grapesEditor.current;
+  const handleSave = async (editor: GrapesJS.Editor) => {
+    const htmlInlineCss = getInlineCssHtml(editor);
+    const grapesJson = editor.getProjectData();
 
-    if (editor) {
-      const htmlInlineCss = getInlineCssHtml(editor);
-
-      if (!onSend) {
-        console.warn(
-          '[React Email Module] You do not have listener for on send hook. Pass one to be able to send html',
-        );
-      } else {
-        handleActionWithLoader(() => onSend(htmlInlineCss));
-      }
+    if (!onSave) {
+      console.warn(
+        '[React Email Module] You do not have listener for on save hook. Pass one to be able to get template data on save',
+      );
+      return;
     }
+
+    return onSave(grapesJson, htmlInlineCss);
   };
 
-  const handleActionWithLoader = async (action: () => Promise<void> | void) => {
-    try {
-      setLoading(true);
-      await action();
-    } catch (e) {
-      console.error('[React Email Module] Error occured while executing an action: ', e);
-    } finally {
-      setLoading(false);
+  const handleSend = async (editor: GrapesJS.Editor) => {
+    const htmlInlineCss = getInlineCssHtml(editor);
+
+    if (!onSend) {
+      console.warn(
+        '[React Email Module] You do not have listener for on send hook. Pass one to be able to send html',
+      );
+      return;
+    }
+
+    await onSend(htmlInlineCss);
+
+    if (saveOnSend) {
+      await handleSave(editor);
     }
   };
 
