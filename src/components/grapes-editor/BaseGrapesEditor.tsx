@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import GrapesJS from 'grapesjs';
 
@@ -10,7 +10,6 @@ import { GrapesjsReact } from 'grapesjs-react';
 import 'grapesjs/dist/css/grapes.min.css';
 import styled from 'styled-components';
 import { addButtons, addCommands } from './utils';
-import { EventType, getEventType, off, on } from '~/events';
 import { CommandType } from './types';
 
 export type GrapesEditorProps = {
@@ -20,7 +19,8 @@ export type GrapesEditorProps = {
 
 export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorProps) {
   const [loading, setLoading] = useState(false);
-  const { uid, onSave, onSend, onAutoSave, templateJSON, templateHTML } = templateConfig;
+  const { uid, onSave, onSend, onAutoSave, templateJSON, templateHTML, onHandleInit } =
+    templateConfig;
 
   const grapesEditor = useRef<GrapesJS.Editor | null>(null);
 
@@ -91,6 +91,11 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
       editor.on('storage:start:store', () => {
         onAutoSave?.(editor.getProjectData());
       });
+
+      onHandleInit?.({
+        saveTemplate: handleActionWithEditor(editor, handleSave),
+        sendTemplate: handleActionWithEditor(editor, handleSend),
+      });
     }
   };
 
@@ -142,24 +147,6 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
 
     await onSend(htmlInlineCss);
   };
-
-  useEffect(() => {
-    function saveTemplate() {
-      console.debug('[ReactEmailModule] saving template')
-      const editor = grapesEditor.current;
-      editor?.runCommand(CommandType.SAVE_TEMPLATE, {});
-    }
-
-    const eventType = getEventType(EventType.SAVE_TEMPLATE, uid);
-
-    console.debug('[ReactEmailModule] react module save template add listener')
-    on(eventType, saveTemplate);
-
-    return () => {
-      console.debug('[ReactEmailModule] react module save template remove listener')
-      off(eventType, saveTemplate);
-    };
-  }, [grapesEditor.current]);
 
   return (
     <ContainerStyled>

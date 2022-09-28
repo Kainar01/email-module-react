@@ -225,7 +225,7 @@ const demo = {
     },
   ],
 };
-const instance = ReactEmailModule.renderTemplate({
+const instance = await ReactEmailModule.renderTemplate({
   containerId: 'root',
   uid: 'helo',
   templateJSON: demo,
@@ -241,7 +241,7 @@ const instance = ReactEmailModule.renderTemplate({
   },
 });
 
-const instance1 = ReactEmailModule.renderTemplate({
+const instance1 = await ReactEmailModule.renderTemplate({
   containerId: 'root1',
   uid: 'helo1',
   templateJSON: demo,

@@ -13,6 +13,12 @@ export interface TemplateConfig {
   mergeTags?: Tag[];
   onSave?: (json: object, html: string) => Promise<void> | void;
   onSend?: (html: string) => Promise<void> | void;
-  onError?: (err: Error) => void;
+  onError?: (err: any) => void;
   onAutoSave?: (json: object) => void;
+  onHandleInit?: (params: TemplateActions) => void;
+}
+
+export interface TemplateActions {
+  saveTemplate: VoidFunction;
+  sendTemplate: VoidFunction;
 }

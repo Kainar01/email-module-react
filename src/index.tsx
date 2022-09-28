@@ -1,8 +1,7 @@
 import * as ReactDOM from 'react-dom/client';
 import React from 'react';
 import App from './App';
-import { TemplateConfig } from './interface';
-import { EventType, getEventType, trigger } from './events';
+import { TemplateActions, TemplateConfig } from './interface';
 
 export default class ReactEmailModule {
   public static renderTemplate = (config: TemplateConfig) => {
@@ -15,29 +14,41 @@ export default class ReactEmailModule {
         `[React Email Module] Container with id ${containerId} does not exist in the DOM`,
       );
 
-    ReactDOM.createRoot(container).render(
-      <React.StrictMode>
-        <App templateConfig={templateConfig} />
-      </React.StrictMode>,
-    );
+    return new Promise<GrapesPluginInstance>((resolve, reject) => {
+      try {
+        const onHandleInit: TemplateConfig['onHandleInit'] = (templateActions) => {
+          resolve(new GrapesPluginInstance(config, templateActions));
+        };
 
-    return new GrapesPluginInstance(config);
+        ReactDOM.createRoot(container).render(
+          <React.StrictMode>
+            <App templateConfig={{ ...templateConfig, onHandleInit }} />
+          </React.StrictMode>,
+        );
+      } catch (err) {
+        config.onError?.(err);
+        reject(err);
+      }
+    });
   };
 }
 
 class GrapesPluginInstance {
   private uid: string;
-  constructor({ uid }: TemplateConfig) {
+  private actions: TemplateActions;
+  constructor(
+    { uid }: TemplateConfig,
+    actions: { saveTemplate: VoidFunction; sendTemplate: VoidFunction },
+  ) {
     this.uid = uid;
+    this.actions = actions;
   }
 
   public saveTemplate() {
-    const eventType = getEventType(EventType.SAVE_TEMPLATE, this.uid);
-    trigger(eventType);
+    this.actions.saveTemplate();
   }
 
   public sendTemplate() {
-    const eventType = getEventType(EventType.SEND_TEMPLATE, this.uid);
-    trigger(eventType);
+    this.actions.sendTemplate();
   }
 }
