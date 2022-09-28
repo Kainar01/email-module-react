@@ -4,6 +4,7 @@ export enum EventType {
 }
 
 function on(eventType: string, listener: () => void) {
+  console.debug('[React Email Module] listening to event', eventType)
   document.addEventListener(eventType, listener);
 }
 

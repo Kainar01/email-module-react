@@ -152,9 +152,11 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
 
     const eventType = getEventType(EventType.SAVE_TEMPLATE, uid);
 
+    console.debug('[ReactEmailModule] react module save template add listener')
     on(eventType, saveTemplate);
 
     return () => {
+      console.debug('[ReactEmailModule] react module save template remove listener')
       off(eventType, saveTemplate);
     };
   }, [grapesEditor.current]);
@@ -164,7 +166,7 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
       <GrapesjsReact
         {...grapesConfig}
         onInit={handleOnInit}
-        id={uid}
+        id={`grapes-uid-${uid}`}
         storageManager={{ autoload: false, autosave: true }}
       />
       <LoadingOverlay active={loading} />
