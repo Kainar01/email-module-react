@@ -145,6 +145,7 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
 
   useEffect(() => {
     function saveTemplate() {
+      console.debug('[ReactEmailModule] saving template')
       const editor = grapesEditor.current;
       editor?.runCommand(CommandType.SAVE_TEMPLATE, {});
     }
