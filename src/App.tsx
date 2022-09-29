@@ -2,7 +2,7 @@ import React from 'react';
 import { AppProvider } from './providers/app';
 
 import 'normalize.css';
-import { GrapesEditor } from './components/grapes-editor';
+import { WebGrapesEditor } from './components/grapes-editor';
 import { TemplateConfig } from '~/interface';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 function App({ templateConfig }: Props) {
   return (
     <AppProvider>
-      <GrapesEditor
+      <WebGrapesEditor
         templateConfig={templateConfig}
         grapesConfig={{}}
       />

@@ -2927,6 +2927,16 @@ grapesjs-component-countdown@^0.1.2:
   resolved "https://registry.yarnpkg.com/grapesjs-component-countdown/-/grapesjs-component-countdown-0.1.3.tgz#7df54b2a6c0bdf3275370f974ac9bd732188aae3"
   integrity sha512-TmxDETedUDv1jGqNLn6E768iyp+xAK/XcTId5WpLrmKPFB6aCuWqfTowhtSvyRJJs83OAFMiQIwIu+tEtSWOeA==
 
+grapesjs-component-countdown@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/grapesjs-component-countdown/-/grapesjs-component-countdown-1.0.1.tgz#fcf61a2976a6c39dc36cf9239c4f99bd77117aea"
+  integrity sha512-avBhe8cHhCLFzgPBwF7ytGZTI1UniJDyoLL87g7MoBIuHFfS2nrJdHE3WlWiqNdnHjKE3AADqXBd0qbfa29w9Q==
+
+grapesjs-custom-code@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/grapesjs-custom-code/-/grapesjs-custom-code-1.0.1.tgz#9215feb0bb2af9c610ce691ad79d53fe9733d0a8"
+  integrity sha512-VRBmajQUgKNPxZnQw9/tC8HHnaUv3nslOJtHfS/Iv86J1ILaF0YOxWxzT6eVgU7IRSDPMUGQ77K5zww0y8oE1A==
+
 grapesjs-navbar@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/grapesjs-navbar/-/grapesjs-navbar-0.1.5.tgz#62e35eca0f391f94d455e96c206b74b5f495fa6e"
@@ -2980,6 +2990,45 @@ grapesjs-react@^4.0.1:
   resolved "https://registry.yarnpkg.com/grapesjs-react/-/grapesjs-react-4.0.1.tgz#b7db61b1815ec807112faf0ca689259f028efbb9"
   integrity sha512-7Ael9Mj7WgwO1l+0QMDOqkgwfR+ceX+UF5WTRrjLHMhLXHXjLF+jLAiThNUVh8ksIke1unjAUeQlAxBRdt8V/A==
 
+grapesjs-style-bg@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/grapesjs-style-bg/-/grapesjs-style-bg-1.0.5.tgz#7a3af51e182e3b98caf6042495a8639064b6be2f"
+  integrity sha512-rQFSYRM8gkg6qsTK9x2f0y9a20NzXbQPcrHRdrQkp5SMfABNG3MRvebxiESVDxzdKNMPIweg1NawWdbUOtFCTg==
+  dependencies:
+    grapesjs-style-gradient "^2.0.14"
+
+grapesjs-style-gradient@^2.0.14:
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/grapesjs-style-gradient/-/grapesjs-style-gradient-2.0.14.tgz#ece4e40eacd409027b30a0df8eaa004569e6ca03"
+  integrity sha512-YLRKpRp0yv5uyPLheUWCedCHdbMzinRzrTFK5+QBGBzKzYxpBQjzX/N2+eEHIzny7UhILq/CxADLPBOdn+KuHw==
+  dependencies:
+    grapick "^0.1.13"
+
+grapesjs-tabs@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/grapesjs-tabs/-/grapesjs-tabs-1.0.6.tgz#d45377935c04e043325a65ddc695b0cd8fd0b9b6"
+  integrity sha512-Xmdte7jMvmGDHIL29t8jlGWL/oSmXOEgswmlKSaYKc7z4ZJEfF0Vr+YTfF6MZq/FFYjzk+0kOad6dnS3TDgZ5Q==
+
+grapesjs-tooltip@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/grapesjs-tooltip/-/grapesjs-tooltip-0.1.7.tgz#fa008f1b77b71f026b9660775d5e1fe672e56183"
+  integrity sha512-eAWm64rSk8/e4++S3LTag1VpWmwP6+63vSuYkfzJT/QLMEu085PkJKGpJIFNeu0xEwDjnrZMZcgKdOb+PSgnSw==
+
+grapesjs-touch@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/grapesjs-touch/-/grapesjs-touch-0.1.1.tgz#6a06c89ccc609ca148ce4b4edb47905a255a1b2e"
+  integrity sha512-rtuxdAhlfGW2XXYY3O04C2Q27X9dtB8P0jcA75rAP/TmwC0kaJKTKHihXAW0VVjx3M8IsC9RSxvhA1Q44QcjmA==
+
+grapesjs-tui-image-editor@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/grapesjs-tui-image-editor/-/grapesjs-tui-image-editor-1.0.1.tgz#ad63123800fd88e12f10709e8ddb1e585de95ee8"
+  integrity sha512-6o4U7mXZ/3Gvu38Jzd8eBp00HXkrNAoVUNYfbZkmgDcuKJ8Db5blIq2hGNkpVHZombrTg5abLDnOZQtCdCHXCw==
+
+grapesjs-typed@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/grapesjs-typed/-/grapesjs-typed-1.0.5.tgz#badc6a625155e6369b0a2c997536c0e72ac95132"
+  integrity sha512-mZrBAFtOqnK2Nq9Odj6AnDTgyN8tFpbS6G4V/JSRB6TXQx+p+ATF/u0QiA6Ej8riTWDldfZYwOLs8kjfU5cFUA==
+
 grapesjs@^0.19.5:
   version "0.19.5"
   resolved "https://registry.yarnpkg.com/grapesjs/-/grapesjs-0.19.5.tgz#8d0045e332e98b1e56edc2b3ef31aee10c8fbf52"
@@ -2991,6 +3040,11 @@ grapesjs@^0.19.5:
     codemirror-formatting "^1.0.0"
     promise-polyfill "^8.1.3"
     underscore "^1.13.1"
+
+grapick@^0.1.13:
+  version "0.1.13"
+  resolved "https://registry.yarnpkg.com/grapick/-/grapick-0.1.13.tgz#075813a5a79003ce6523df39718e5ec618651599"
+  integrity sha512-2v7DdmXKbl9+GsL2ZRl2qEMD+PeczYJBSifwx+5SGbaSh0pZ+b6GLya87cBfN953wwXsZqyzuSVPBzqRz8F12g==
 
 har-schema@^2.0.0:
   version "2.0.0"

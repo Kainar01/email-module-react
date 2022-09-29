@@ -241,26 +241,6 @@ const instance = await ReactEmailModule.renderTemplate({
   },
 });
 
-const instance1 = await ReactEmailModule.renderTemplate({
-  containerId: 'root1',
-  uid: 'helo1',
-  templateJSON: demo,
-  templateHTML: '<b>helo</b>',
-  onSave: async (json, html) => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    console.log(json);
-  },
-  onAutoSave: (json) => {},
-  onSend: async (html) => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    console.log(html);
-  },
-});
-
 document.getElementById('button')?.addEventListener('click', () => {
   instance.saveTemplate();
-});
-
-document.getElementById('button1')?.addEventListener('click', () => {
-  instance1.saveTemplate();
 });

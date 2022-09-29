@@ -11,6 +11,7 @@ import 'grapesjs/dist/css/grapes.min.css';
 import styled from 'styled-components';
 import { addButtons, addCommands } from './utils';
 import { CommandType } from './types';
+import { DEFAULT_GRAPES_CONFIG } from './constant';
 
 export type GrapesEditorProps = {
   grapesConfig: GrapesJS.EditorConfig;
@@ -151,6 +152,7 @@ export function BaseGrapesEditor({ grapesConfig, templateConfig }: GrapesEditorP
   return (
     <ContainerStyled>
       <GrapesjsReact
+        {...DEFAULT_GRAPES_CONFIG}
         {...grapesConfig}
         onInit={handleOnInit}
         id={`grapes-uid-${uid}`}
