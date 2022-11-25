@@ -167,4 +167,6 @@ export const ContainerStyled = styled.div`
   position: relative;
   width: 100%;
   display: flex;
+  height: 100%;
+  overflow-y: auto;
 `;
