@@ -2,8 +2,8 @@ import React from 'react';
 import { AppProvider } from './providers/app';
 
 import 'normalize.css';
-import { WebGrapesEditor } from './components/grapes-editor';
 import { TemplateConfig } from '~/interface';
+import { EmailEditor } from './components/email-editor/EmailEditor';
 
 type Props = {
   templateConfig: Omit<TemplateConfig, 'containerId'>;
@@ -11,10 +11,7 @@ type Props = {
 function App({ templateConfig }: Props) {
   return (
     <AppProvider>
-      <WebGrapesEditor
-        templateConfig={templateConfig}
-        grapesConfig={{}}
-      />
+      <EmailEditor templateConfig={templateConfig} />
     </AppProvider>
   );
 }

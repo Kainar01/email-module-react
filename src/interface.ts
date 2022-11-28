@@ -1,12 +1,16 @@
+import { UnlayerOptions } from 'react-email-editor';
+
 export interface Tag {
   name: string;
   value: string;
 }
 
 export interface TemplateConfig {
-  uid: string;
+  projectId: number;
+  unlayerOptions?: UnlayerOptions;
   containerId: string;
   autosave?: number;
+  beeJSON?: object
   templateJSON?: object;
   templateHTML?: string;
   preventClose?: boolean;

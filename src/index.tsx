@@ -34,13 +34,13 @@ export default class ReactEmailModule {
 }
 
 class GrapesPluginInstance {
-  private uid: string;
+  private projectId: number;
   private actions: TemplateActions;
   constructor(
-    { uid }: TemplateConfig,
+    { projectId }: TemplateConfig,
     actions: { saveTemplate: VoidFunction; sendTemplate: VoidFunction },
   ) {
-    this.uid = uid;
+    this.projectId = projectId;
     this.actions = actions;
   }
 
