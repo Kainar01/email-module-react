@@ -28,3 +28,4 @@ const instance = await ReactEmailModule.renderTemplate({
 document.getElementById('button')?.addEventListener('click', () => {
   instance.saveTemplate();
 });
+

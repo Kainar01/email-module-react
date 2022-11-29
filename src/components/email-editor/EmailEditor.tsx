@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import ReactEmailEditor, { HtmlExport } from 'react-email-editor';
 import styled from 'styled-components';
 import { Unlayer2be } from 'unlayer2be';
@@ -6,7 +6,7 @@ import { TemplateConfig } from '~/interface';
 import { autoSaveHook } from './autoSaveHook';
 import { EditorBar } from './EditorBar';
 
-type EmailEditorRef = {
+export type EmailEditorRef = {
   editor: ReactEmailEditor;
 };
 
@@ -22,27 +22,25 @@ export const EmailEditor = ({ templateConfig }: Props) => {
   const {
     projectId,
     unlayerOptions,
+    beeJSON,
+    templateJSON,
+    templateHTML,
     onSave,
     onSend,
     onAutoSave,
-    templateJSON,
-    beeJSON,
-    templateHTML,
     onHandleInit,
   } = templateConfig;
 
 
   const autoSaveDesign = () => {
-    console.log('autosaving')
     exportDesign().then(({ design }) => onAutoSave?.(design));
   };
 
-  autoSaveHook(emailEditorRef.current?.editor || null, autoSaveDesign);
+  autoSaveHook(emailEditorRef, autoSaveDesign);
 
   const exportDesign = () => {
     return new Promise<HtmlExport>((resolve, reject) => {
       try {
-        console.log(emailEditorRef.current)
         emailEditorRef.current!.editor.exportHtml((data) => resolve(data), {
           minify: true,
           cleanup: true,
@@ -84,7 +82,7 @@ export const EmailEditor = ({ templateConfig }: Props) => {
     };
   };
 
-  const onLoad = () => {
+  const loadDesign = (editor: ReactEmailEditor) => {
     let design = templateJSON;
     // load from bee json
     if (!templateJSON && beeJSON) {
@@ -94,14 +92,21 @@ export const EmailEditor = ({ templateConfig }: Props) => {
     else if (!templateJSON && templateHTML) {
       design = Unlayer2be.fromHtml(templateHTML);
     }
-    if(!emailEditorRef.current){
-      console.warn('[React Email Module] editor not initialized');
-    }
-    console.log(emailEditorRef.current);
     
-    emailEditorRef.current?.editor?.loadDesign(design as any);
+    editor.loadDesign(design as any);
   };
 
+  // used interval to fix: onLoad fires before ref
+  const onLoadEditor = useCallback(() => {
+    const timer = setInterval(function() {
+      if (emailEditorRef.current?.editor) {
+        loadDesign(emailEditorRef.current.editor)
+        clearInterval(timer);
+      }
+    }, 500);
+  }, [ emailEditorRef ]);
+
+  
   const onReady = () => {
     onHandleInit?.({
       saveTemplate: handleActionWithEditor(saveDesign),
@@ -123,7 +128,7 @@ export const EmailEditor = ({ templateConfig }: Props) => {
           projectId,
         }}
         ref={emailEditorRef as any}
-        onLoad={onLoad}
+        onLoad={onLoadEditor}
         onReady={onReady}
       />
     </ContainerStyled>
