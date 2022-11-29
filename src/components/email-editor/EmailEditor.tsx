@@ -33,7 +33,7 @@ export const EmailEditor = ({ templateConfig }: Props) => {
 
 
   const autoSaveDesign = () => {
-    exportDesign().then(({ design }) => onAutoSave?.(design));
+    exportDesign().then(({ design }) => onAutoSave?.(JSON.stringify(design)));
   };
 
   autoSaveHook(emailEditorRef, autoSaveDesign);

@@ -2,7 +2,7 @@
   "name": "react-email-module",
   "private": false,
   "type": "module",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "./dist/react-email-module.umd.cjs",
   "module": "./dist/react-email-module.js",
   "types": "./dist/index.d.ts",

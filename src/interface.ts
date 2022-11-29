@@ -18,7 +18,7 @@ export interface TemplateConfig {
   onSave?: (json: object, html: string) => Promise<void> | void;
   onSend?: (html: string) => Promise<void> | void;
   onError?: (err: any) => void;
-  onAutoSave?: (json: object) => void;
+  onAutoSave?: (data: string) => void;
   onHandleInit?: (params: TemplateActions) => void;
 }
 
