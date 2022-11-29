@@ -94,6 +94,11 @@ export const EmailEditor = ({ templateConfig }: Props) => {
     else if (!templateJSON && templateHTML) {
       design = Unlayer2be.fromHtml(templateHTML);
     }
+    if(!emailEditorRef.current){
+      console.warn('[React Email Module] editor not initialized');
+    }
+    console.log(emailEditorRef.current);
+    
     emailEditorRef.current?.editor?.loadDesign(design as any);
   };
 
